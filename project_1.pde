@@ -20,9 +20,9 @@ void draw(){
 
 void keyPressed(){
    if(keyCode == DOWN) PlayerY += speed;
+   else if(keyCode == UP) PlayerY -= speed;
    if(keyCode == LEFT) PlayerX -= speed;
-   if(keyCode == RIGHT) PlayerX += speed;
-   if(keyCode == UP) PlayerY -= speed;
+   else if(keyCode == RIGHT) PlayerX += speed;
 }
 
 void keyReleased()

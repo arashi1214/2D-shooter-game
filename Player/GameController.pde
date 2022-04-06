@@ -6,8 +6,10 @@
 Title title;
 Game game;
 End end;
+Player player;
 //Other
 int gameStatus = 0;
+boolean MoveL = false, MoveU = false, MoveR = false, MoveD = false;
 
 
 //[Main Region]
@@ -19,7 +21,7 @@ void setup() {
   title = new Title();
   game = new Game();
   end = new End();
-  
+  player = new Player(100,5,400,300);
 }
 
 void draw() {
@@ -33,11 +35,27 @@ void draw() {
   
   case 1:// Game
     gameStatus = game.Update();
+    player.Move(MoveL, MoveR, MoveU, MoveD, 800, 600);
+    player.Update();
     break;
   
   case 2:// Ending
     gameStatus = end.Update();
   }
+}
+
+void keyPressed(){
+ if(keyCode == DOWN) MoveD = true;
+ if(keyCode == UP) MoveU = true;
+ if(keyCode == LEFT) MoveL = true;
+ if(keyCode == RIGHT) MoveR = true;
+}
+
+void keyReleased(){
+ if(keyCode == DOWN) MoveD = false;
+ if(keyCode == UP) MoveU = false;
+ if(keyCode == LEFT) MoveL = false;
+ if(keyCode == RIGHT) MoveR = false;
 }
 
 //[Function Region]

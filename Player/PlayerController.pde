@@ -12,16 +12,24 @@ class Player
     this.y = Y;
   }
 
-  
-
   //void move()
-  void move() 
+  void Move(boolean MoveL, boolean MoveR, boolean MoveU, boolean MoveD, int ScenesX, int ScenesY) 
   {
+    // moving
+    if(MoveL) this.x -= this.speed;
+    if(MoveR) this.x += this.speed;
+    if(MoveU) this.y -= this.speed;
+    if(MoveD) this.y += this.speed;
     
+    //Judgment out of bounds
+    if(this.x > ScenesX) this.x = ScenesX;
+    if(this.x < 0) this.x = 0;
+    if(this.y > ScenesY) this.y = ScenesY;
+    if(this.y < 0) this.y = 0;
   }
   
-  void update()
+  void Update()
   {
-    image(imagePath, playerPositionX, playerPositionY, 128, 128);
+    image(imagePath, this.x, this.y, 64, 64);
   }
 }
