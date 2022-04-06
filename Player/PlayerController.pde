@@ -22,9 +22,9 @@ class Player
     if(MoveD) this.y += this.speed;
     
     //Judgment out of bounds
-    if(this.x > ScenesX) this.x = ScenesX;
+    if(this.x + 64 > ScenesX) this.x = ScenesX - 64;
     if(this.x < 0) this.x = 0;
-    if(this.y > ScenesY) this.y = ScenesY;
+    if(this.y + 64 > ScenesY) this.y = ScenesY - 64;
     if(this.y < 0) this.y = 0;
   }
   
