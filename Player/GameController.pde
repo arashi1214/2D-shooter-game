@@ -7,6 +7,7 @@ Title title;
 Game game;
 End end;
 Player player;
+Enemy enemy;
 //Other
 int gameStatus = 0;
 boolean MoveL = false, MoveU = false, MoveR = false, MoveD = false;
@@ -22,6 +23,7 @@ void setup() {
   game = new Game();
   end = new End();
   player = new Player(100,5,400,300);
+  enemy = new Enemy();
 }
 
 void draw() {
@@ -37,6 +39,8 @@ void draw() {
     gameStatus = game.Update();
     player.Move(MoveL, MoveR, MoveU, MoveD, 800, 600);
     player.Update();
+    enemy.Move();
+    enemy.Update();
     break;
   
   case 2:// Ending
