@@ -1,35 +1,46 @@
 class Player
 {
-  int hp, speed, x, y;
+  int hp, speed;
   PImage imagePath = loadImage("img/fighter.png");
-
+  // 0=x, 1=y
+  int PlayerAxis[] = new int[2];
   //Init
   Player(int HP, int Speed, int X, int Y)
   {
     this.hp = HP;
     this.speed = Speed;
-    this.x = X;
-    this.y = Y;
+    this.PlayerAxis[0] = X;
+    this.PlayerAxis[1] = Y;
   }
 
   //void move()
   void Move(boolean MoveL, boolean MoveR, boolean MoveU, boolean MoveD, int ScenesX, int ScenesY) 
   {
     // moving
-    if(MoveL) this.x -= this.speed;
-    if(MoveR) this.x += this.speed;
-    if(MoveU) this.y -= this.speed;
-    if(MoveD) this.y += this.speed;
+    if(MoveL) this.PlayerAxis[0] -= this.speed;
+    if(MoveR) this.PlayerAxis[0] += this.speed;
+    if(MoveU) this.PlayerAxis[1] -= this.speed;
+    if(MoveD) this.PlayerAxis[1] += this.speed;
     
     //Judgment out of bounds
-    if(this.x + 64 > ScenesX) this.x = ScenesX - 64;
-    if(this.x < 0) this.x = 0;
-    if(this.y + 64 > ScenesY) this.y = ScenesY - 64;
-    if(this.y < 0) this.y = 0;
+    if(this.PlayerAxis[0] + 51 > ScenesX) this.PlayerAxis[0] = ScenesX - 51;
+    if(this.PlayerAxis[0] < 0) this.PlayerAxis[0] = 0;
+    if(this.PlayerAxis[1] + 51 > ScenesY) this.PlayerAxis[1] = ScenesY - 51;
+    if(this.PlayerAxis[1] < 0) this.PlayerAxis[1] = 0;
   }
   
   void Update()
   {
-    image(imagePath, this.x, this.y, 64, 64);
+    image(imagePath, this.PlayerAxis[0], this.PlayerAxis[1]);
+  }
+  
+  void CreateBullet(){
+
+  }
+  
+  void CollisionDetection(int[][] EnemyAxis){
+    if(PlayerAxis[0] < EnemyAxis[0] + 61 && PlayerAxis[0] + 51 > EnemyAxis[0] && PlayerAxis[1] < EnemyAxis[1] + 61 && PlayerAxis[1] + 51 > EnemyAxis[1]){
+
+    }
   }
 }
