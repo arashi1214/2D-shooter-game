@@ -7,11 +7,13 @@ Title title;
 Game game;
 End end;
 Player player;
-Enemy enemy;
+Enemy[] enemys;
 //Other
 int gameStatus = 0;
 boolean MoveL = false, MoveU = false, MoveR = false, MoveD = false;
-
+boolean Act = false;
+int EnemyAxis[][] = new int[5][2];
+int EnemyCount = 1;
 
 //[Main Region]
 void setup() {
@@ -23,7 +25,10 @@ void setup() {
   game = new Game();
   end = new End();
   player = new Player(100,5,400,300);
-  enemy = new Enemy();
+  // create all enemys
+  enemys = new Enemy[5];
+  for(int i=0; i<5; i++)
+    enemys[i] = new Enemy();
 }
 
 void draw() {
@@ -39,8 +44,14 @@ void draw() {
     gameStatus = game.Update();
     player.Move(MoveL, MoveR, MoveU, MoveD, 800, 600);
     player.Update();
-    enemy.Move();
-    enemy.Update();
+    
+    for(int i=0; i<EnemyCount; i++){
+      EnemyAxis[i] = enemys[i].Move();
+      enemys[i].Update();    
+    }
+
+    //player.CollisionDetection(EnemyAxis);
+
     break;
   
   case 2:// Ending
@@ -53,6 +64,7 @@ void keyPressed(){
  if(keyCode == UP) MoveU = true;
  if(keyCode == LEFT) MoveL = true;
  if(keyCode == RIGHT) MoveR = true;
+ //if(keyCode == 32) Act = true;
 }
 
 void keyReleased(){
@@ -60,6 +72,7 @@ void keyReleased(){
  if(keyCode == UP) MoveU = false;
  if(keyCode == LEFT) MoveL = false;
  if(keyCode == RIGHT) MoveR = false;
+ //if(keyCode == 32) Act = false;
 }
 
 //[Function Region]
