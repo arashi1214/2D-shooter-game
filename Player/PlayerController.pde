@@ -4,6 +4,7 @@ class Player
   PImage imagePath = loadImage("img/fighter.png");
   // 0=x, 1=y
   int PlayerAxis[] = new int[2];
+  
   //Init
   Player(int HP, int Speed, int X, int Y)
   {
@@ -14,7 +15,7 @@ class Player
   }
 
   //void move()
-  void Move(boolean MoveL, boolean MoveR, boolean MoveU, boolean MoveD, int ScenesX, int ScenesY) 
+  int[] Move(boolean MoveL, boolean MoveR, boolean MoveU, boolean MoveD, int ScenesX, int ScenesY) 
   {
     // moving
     if(MoveL) this.PlayerAxis[0] -= this.speed;
@@ -27,6 +28,8 @@ class Player
     if(this.PlayerAxis[0] < 0) this.PlayerAxis[0] = 0;
     if(this.PlayerAxis[1] + 51 > ScenesY) this.PlayerAxis[1] = ScenesY - 51;
     if(this.PlayerAxis[1] < 0) this.PlayerAxis[1] = 0;
+    
+    return PlayerAxis;
   }
   
   void Update()
@@ -34,13 +37,14 @@ class Player
     image(imagePath, this.PlayerAxis[0], this.PlayerAxis[1]);
   }
   
-  void CreateBullet(){
-
-  }
-  
-  void CollisionDetection(int[][] EnemyAxis){
-    if(PlayerAxis[0] < EnemyAxis[0] + 61 && PlayerAxis[0] + 51 > EnemyAxis[0] && PlayerAxis[1] < EnemyAxis[1] + 61 && PlayerAxis[1] + 51 > EnemyAxis[1]){
-
+  boolean CollisionDetection(int[][] EnemyAxis){
+    if(PlayerAxis[0] < EnemyAxis[0][0] + 61 && PlayerAxis[0] + 51 > EnemyAxis[0][0] && PlayerAxis[1] < EnemyAxis[0][1] + 61 && PlayerAxis[1] + 51 > EnemyAxis[0][1]){
+      this.hp -= 20;  
+      return true;
+    }
+    else{
+      return false;
     }
   }
+  
 }
