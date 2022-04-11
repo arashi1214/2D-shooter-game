@@ -101,6 +101,7 @@ void draw() {
     if(millis() % 5000 > 4980 && EnemyCount < 5){
       EnemyCount += 1;
     }
+    break;
   
   case 2:// Ending
     gameStatus = end.Update();
