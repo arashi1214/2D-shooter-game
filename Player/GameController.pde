@@ -7,18 +7,23 @@ Title title;
 Game game;
 End end;
 Player player;
+Enemy[] enemys;
 Enemy enemy;
 Bullet bullets;
+Treasure treasures;
 
 //Other
 int gameStatus = 0;
-boolean MoveL = false, MoveU = false, MoveR = false, MoveD = false;
 int EnemyAxis[][] = new int[5][2];
+int bulletsCount = 0;
+int PlayerAxis[] = new int[2];
+int EnemyCount = 1;
+boolean MoveL = false, MoveU = false, MoveR = false, MoveD = false;
 boolean PlayerEnemyStatus = false;
 boolean BulletEnemyStatus = false;
-int bulletsCount = 0;
 boolean Act = false;
-int PlayerAxis[] = new int[2];
+
+
 //ArrayList<Object> Enemys = new ArrayList<Object>();
 
 //[Main Region]
@@ -31,8 +36,14 @@ void setup() {
   game = new Game();
   end = new End();
   player = new Player(100,5,400,300);
+  treasures = new Treasure(floor(random(50, 750)), floor(random(50, 550)));
   // create all enemys
-  enemy = new Enemy();
+  enemys = new Enemy[5];
+  enemys[0] = new Enemy(true);
+ 
+  for (int i=1; i<5; i++){
+    enemys[i] = new Enemy(false);
+  }
   
   /* array list testing
   Enemys.add(new Enemy());
@@ -51,14 +62,23 @@ void draw() {
   
   
   case 1:// Game
+    // Updata Scence
     gameStatus = game.Update();
     PlayerAxis = player.Move(MoveL, MoveR, MoveU, MoveD, 800, 600);
     player.Update();
-    EnemyAxis[0] = enemy.Move(PlayerEnemyStatus, BulletEnemyStatus);
-    enemy.Update();    
     
+    for(int i=0; i<5; i++){
+      EnemyAxis[i] = enemys[i].Move(PlayerEnemyStatus, BulletEnemyStatus);
+      enemys[i].Update();  
+    }
+    
+    treasures.Update();
+   
+    // CollisionDetection
     PlayerEnemyStatus = player.CollisionDetection(EnemyAxis);
+    treasures.CollisionDetection(PlayerAxis, player);
     
+    // Act
     if(bulletsCount > 0){
       bullets = new Bullet(2, PlayerAxis[0]+25, PlayerAxis[1]+25);
       bulletsCount -= 1;
@@ -73,7 +93,14 @@ void draw() {
       if(BulletEnemyStatus) Act = false;
     }
     
-    break;
+    // add enemy
+    for(int j=0; j<EnemyCount; j++){
+      enemys[j].ChangeStatus(true);
+    }
+    
+    if(millis() % 5000 > 4980 && EnemyCount < 5){
+      EnemyCount += 1;
+    }
   
   case 2:// Ending
     gameStatus = end.Update();
@@ -97,7 +124,6 @@ void keyReleased(){
  if(keyCode == UP) MoveU = false;
  if(keyCode == LEFT) MoveL = false;
  if(keyCode == RIGHT) MoveR = false;
- //if(keyCode == 32)
 }
 
 //[Function Region]
