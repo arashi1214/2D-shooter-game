@@ -41,8 +41,8 @@ class Player
     this.hp += 20;
   }
   
-  boolean CollisionDetection(int[][] EnemyAxis){
-    if(PlayerAxis[0] < EnemyAxis[0][0] + 61 && PlayerAxis[0] + 51 > EnemyAxis[0][0] && PlayerAxis[1] < EnemyAxis[0][1] + 61 && PlayerAxis[1] + 51 > EnemyAxis[0][1]){
+  boolean CollisionDetection(int[] EnemyAxis){
+    if(PlayerAxis[0] < EnemyAxis[0] + 61 && PlayerAxis[0] + 51 > EnemyAxis[0] && PlayerAxis[1] < EnemyAxis[1] + 61 && PlayerAxis[1] + 51 > EnemyAxis[1]){
       this.hp -= 20;  
       return true;
     }

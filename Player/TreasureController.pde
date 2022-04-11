@@ -15,9 +15,9 @@ class Treasure
     image(imagePath, this.x, this.y);
   }
   
-  boolean CollisionDetection(int[] PlayerAxis, Object player){
+  boolean CollisionDetection(int[] PlayerAxis, Player player){
     if(this.x < PlayerAxis[0] + 51 && this.x + 41 > PlayerAxis[0] && this.y < PlayerAxis[1] + 51 && this.y + 41 > PlayerAxis[1]){
-      //player.GetTreasure();
+      player.GetTreasure();
       return true;
     }
     else{
