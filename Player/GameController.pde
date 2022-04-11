@@ -85,7 +85,9 @@ void draw() {
     if(millis() % 5000 > 4980 && enemys.size() <= 5){
       enemys.add(new Enemy());
     }
+
     break;
+  
   case 2:// Ending
     gameStatus = end.Update();
   }
@@ -97,7 +99,7 @@ void keyPressed(){
  if(keyCode == LEFT) MoveL = true;
  if(keyCode == RIGHT) MoveR = true;
  if(keyCode == 32){
-   if(bullets.size() <= 5){
+   if(bullets.size() < 5){
      bullets.add(new Bullet(3, PlayerAxis[0], PlayerAxis[1] + 25));
    }
  }
