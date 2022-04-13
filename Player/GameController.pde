@@ -49,6 +49,23 @@ void draw() {
     // Updata Scence
     gameStatus = game.Update();
     
+    //Moving
+    PlayerAxis = player.Move(MoveL, MoveR, MoveU, MoveD, 800, 600);
+    player.Update();
+    
+    for(int i=0; i<enemys.size(); i++){
+      EnemyAxis[i] = enemys.get(i).Move(PlayerAxis);
+      enemys.get(i).Update();  
+    }
+    
+    for(int j=0; j<bullets.size(); j++){
+      BulletStatus = bullets.get(j).Move();
+      bullets.get(j).Update();
+      if(!BulletStatus) bullets.remove(j);
+    }
+    
+    treasures.Update();
+    
     // CollisionDetection
     treasures.CollisionDetection(PlayerAxis, player);
     
@@ -64,23 +81,6 @@ void draw() {
         }
       }
     }
-    
-    //Moving
-    PlayerAxis = player.Move(MoveL, MoveR, MoveU, MoveD, 800, 600);
-    player.Update();
-    
-    for(int i=0; i<enemys.size(); i++){
-      EnemyAxis[i] = enemys.get(i).Move();
-      enemys.get(i).Update();  
-    }
-    
-    for(int j=0; j<bullets.size(); j++){
-      BulletStatus = bullets.get(j).Move();
-      if(!BulletStatus) bullets.remove(j);
-      bullets.get(j).Update();
-    }
-    
-    treasures.Update();
 
     // add enemy
     if(millis() % 5000 > 4980 && enemys.size() <= 5){
