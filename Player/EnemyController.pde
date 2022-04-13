@@ -3,7 +3,6 @@ class Enemy
   int speed;
   int EnemyAxis[] = new int[2];
   PImage imagePath = loadImage("img/enemy.png");
-
   //Init
   Enemy()
   {

@@ -4,6 +4,7 @@ class Player
   PImage imagePath = loadImage("img/fighter.png");
   // 0=x, 1=y
   int PlayerAxis[] = new int[2];
+  ArrayList<Bullet> bullets = new ArrayList<Bullet>();
   
   //Init
   Player(int HP, int Speed, int X, int Y)
@@ -39,6 +40,31 @@ class Player
   
   void GetTreasure(){
     this.hp += 20;
+  }
+  
+  void Act(){
+    if(this.bullets.size() < 5){
+        this.bullets.add(new Bullet(3, this.PlayerAxis[0], this.PlayerAxis[1] + 25));
+    }
+  }
+  
+  void ActMove(){
+    for(int j=0; j<bullets.size(); j++){
+      BulletStatus = this.bullets.get(j).Move();
+      this.bullets.get(j).Update();
+      if(!BulletStatus) this.bullets.remove(j);
+    }
+  }
+  
+  boolean ActCollisionDetection(int EnemyAxis[]){
+    for(int j=0; j<bullets.size(); j++){
+        BulletEnemyStatus = this.bullets.get(j).CollisionDetection(EnemyAxis);
+        if(BulletEnemyStatus){
+          bullets.remove(j);
+          return true;
+        }
+    }
+    return false;
   }
   
   boolean CollisionDetection(int[] EnemyAxis){

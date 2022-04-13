@@ -20,7 +20,6 @@ boolean BulletEnemyStatus = false;
 boolean BulletStatus;
 
 ArrayList<Enemy> enemys = new ArrayList<Enemy>();
-ArrayList<Bullet> bullets = new ArrayList<Bullet>();
 
 //[Main Region]
 void setup() {
@@ -37,7 +36,6 @@ void setup() {
   enemys.add(new Enemy());
 }
 void draw() {
-
   switch(gameStatus)
   {
   case 0: // Title
@@ -52,16 +50,11 @@ void draw() {
     //Moving
     PlayerAxis = player.Move(MoveL, MoveR, MoveU, MoveD, 800, 600);
     player.Update();
+    player.ActMove();
     
     for(int i=0; i<enemys.size(); i++){
       EnemyAxis[i] = enemys.get(i).Move(PlayerAxis);
       enemys.get(i).Update();  
-    }
-    
-    for(int j=0; j<bullets.size(); j++){
-      BulletStatus = bullets.get(j).Move();
-      bullets.get(j).Update();
-      if(!BulletStatus) bullets.remove(j);
     }
     
     treasures.Update();
@@ -71,19 +64,13 @@ void draw() {
     
     for(int i=0; i<enemys.size(); i++){
       PlayerEnemyStatus = player.CollisionDetection(EnemyAxis[i]);
-      if(PlayerEnemyStatus) enemys.remove(i);
+      BulletEnemyStatus = player.ActCollisionDetection(EnemyAxis[i]);
       
-      for(int j=0; j<bullets.size(); j++){
-        BulletEnemyStatus = bullets.get(j).CollisionDetection(EnemyAxis[i]);
-        if(BulletEnemyStatus){
-          enemys.get(i).Remake();
-          bullets.remove(j);
-        }
-      }
+      if(PlayerEnemyStatus || BulletEnemyStatus) enemys.remove(i);
     }
 
     // add enemy
-    if(millis() % 5000 > 4980 && enemys.size() <= 5){
+    if(millis() % 3000 > 2980 && enemys.size() <= 5){
       enemys.add(new Enemy());
     }
 
@@ -100,9 +87,12 @@ void keyPressed(){
  if(keyCode == LEFT) MoveL = true;
  if(keyCode == RIGHT) MoveR = true;
  if(keyCode == 32){
+   player.Act();
+   /*
    if(bullets.size() < 5){
      bullets.add(new Bullet(3, PlayerAxis[0], PlayerAxis[1] + 25));
    }
+   */
  }
 }
 
