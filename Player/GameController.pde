@@ -74,8 +74,8 @@ void draw() {
     if(treasures.CollisionDetection(PlayerAxis, player)) treasures = new Treasure(floor(random(50, width - 50)), floor(random(50, height - 50)));
     
     for(int i=0; i<enemys.size(); i++){
-      PlayerEnemyStatus = player.CollisionDetection(EnemyAxis[i]);
-      BulletEnemyStatus = player.AtkCollisionDetection(EnemyAxis[i]);
+      PlayerEnemyStatus = player.CollisionDetection(EnemyAxis[i], 61, 61);
+      BulletEnemyStatus = player.AtkCollisionDetection(EnemyAxis[i], 61, 61);
       
       if(PlayerEnemyStatus || BulletEnemyStatus) enemys.remove(i);
     }
@@ -84,7 +84,7 @@ void draw() {
       BulletPlayerStatus = boss.get(j).AtkCollisionDetection(PlayerAxis);
       if(BulletPlayerStatus) player.ChangeHp(-20);
       
-      BulletBossStatus = player.AtkCollisionDetection(BossAxis);
+      BulletBossStatus = player.AtkCollisionDetection(BossAxis, 61, 120);
       if(BulletBossStatus) boss.get(j).ChangeHp(-10);
       if(boss.get(j).hp <= 0) boss.remove(j);
     }

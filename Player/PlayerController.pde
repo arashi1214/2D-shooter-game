@@ -57,9 +57,9 @@ class Player
     }
   }
   
-  boolean AtkCollisionDetection(int EnemyAxis[]){
+  boolean AtkCollisionDetection(int EnemyAxis[], int w, int h){
     for(int j=0; j<bullets.size(); j++){
-        BulletEnemyStatus = this.bullets.get(j).CollisionDetection(EnemyAxis);
+        BulletEnemyStatus = this.bullets.get(j).CollisionDetection(EnemyAxis, w, h);
         if(BulletEnemyStatus){
           bullets.remove(j);
           return true;
@@ -68,8 +68,8 @@ class Player
     return false;
   }
   
-  boolean CollisionDetection(int[] EnemyAxis){
-    if(PlayerAxis[0] < EnemyAxis[0] + 61 && PlayerAxis[0] + 51 > EnemyAxis[0] && PlayerAxis[1] < EnemyAxis[1] + 61 && PlayerAxis[1] + 51 > EnemyAxis[1]){
+  boolean CollisionDetection(int EnemyAxis[], int w, int h){
+    if(PlayerAxis[0] < EnemyAxis[0] + w && PlayerAxis[0] + 51 > EnemyAxis[0] && PlayerAxis[1] < EnemyAxis[1] + h && PlayerAxis[1] + 51 > EnemyAxis[1]){
       ChangeHp(-20);
       return true;
     }

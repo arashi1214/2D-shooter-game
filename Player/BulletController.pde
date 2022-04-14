@@ -17,7 +17,7 @@ class Bullet
   //void move()
   boolean Move() 
   {
-    if(this.x < 800 && this.x > -20){
+    if(this.x < width && this.x > -20){
       this.x -= this.speed;
       return true;
     }
@@ -30,8 +30,8 @@ class Bullet
     rect(this.x, this.y, 20, 10);
   }
   
-  boolean CollisionDetection(int[] Axis){
-    if(this.x < Axis[0] + 61 && this.x + 51 > Axis[0] && this.y < Axis[1] + 61 && this.y + 51 > Axis[1]){
+  boolean CollisionDetection(int[] Axis, int w, int h){
+    if(this.x < Axis[0] + w && this.x + 20 > Axis[0] && this.y < Axis[1] + h && this.y + 10 > Axis[1]){
       return true;
     }
     else{

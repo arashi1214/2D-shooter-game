@@ -69,7 +69,7 @@ class Boss
   
   boolean AtkCollisionDetection(int PlayerAxis[]){
     for(int j=0; j<bullets.size(); j++){
-        if(this.bullets.get(j).CollisionDetection(PlayerAxis)){
+        if(this.bullets.get(j).CollisionDetection(PlayerAxis, 51, 51)){
           bullets.remove(j);
           return true;
         }
