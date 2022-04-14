@@ -1,15 +1,18 @@
 class Boss
 {
-  int speed, HP, mode;
+  int speed, hp, mode;
   int BossAxis[] = new int[2];
   boolean status = true; //true: up false: down
+  boolean BulletStatus;
+  boolean LongBulletStatus;
   PImage imagePath = loadImage("img/Moocs-element-enemy1.png");
   ArrayList<Bullet> bullets = new ArrayList<Bullet>();
+  ArrayList<LongBullet> longbullets = new ArrayList<LongBullet>();
   
   //Init
   Boss()
   {
-    this.HP = 50;
+    this.hp = 50;
     this.speed = floor(random(2,5));
     this.BossAxis[0] = -61;
     this.BossAxis[1] = width / 2;
@@ -25,36 +28,68 @@ class Boss
       if(this.status) this.BossAxis[1] -= this.speed;
       else this.BossAxis[1] += this.speed;
     
-      if(BossAxis[1] < 0 || BossAxis[1] > height) this.status = !this.status;
+      if(BossAxis[1] < 0 || BossAxis[1] > height - 80) this.status = !this.status;
     }
     return this.BossAxis;
   }
   
-  void Act(int time){
-    this.mode = floor(random(1,2));
-    if(this.bullets.size() == 0 && time % 5000 > 4980){
+  void Atk(float time){
+    if(this.bullets.size() == 0 && time % 3000 > 2980){
+      this.mode = floor(random(1,3));
       switch(mode){
         case 1:
-          this.bullets.add(new Bullet(-3, this.BossAxis[0], this.BossAxis[1] + 30));
+          this.bullets.add(new Bullet(-3, this.BossAxis[0], this.BossAxis[1] + 30, 0, 255, 0));
           break;
         case 2:
-          this.bullets.add(new Bullet(-3, this.BossAxis[0], this.BossAxis[1]));
-          this.bullets.add(new Bullet(-3, this.BossAxis[0], this.BossAxis[1] + 60));
+          this.bullets.add(new Bullet(-3, this.BossAxis[0], this.BossAxis[1], 0, 255, 0));
+          this.bullets.add(new Bullet(-3, this.BossAxis[0], this.BossAxis[1] + 80, 0, 255, 0));
+          break;
+        case 3:
+          if(this.longbullets.size() == 0)
+            this.longbullets.add(new LongBullet(-10, this.BossAxis[0], this.BossAxis[1] + 60, 0, 255, 0));
           break;
       }
     }
-    ActMove();
+    AtkMove();
   }
   
-  void ActMove(){
-   for(int j=0; j<this.bullets.size(); j++){
-      this.bullets.get(j).Move();
+  void AtkMove(){
+    for(int j=0; j<this.bullets.size(); j++){
+      BulletStatus = this.bullets.get(j).Move();
       this.bullets.get(j).Update();
+      if(!BulletStatus) this.bullets.remove(j);
     }
+    
+    for(int k=0; k<this.longbullets.size(); k++){
+      LongBulletStatus = this.longbullets.get(k).Move();
+      this.longbullets.get(k).Update();
+      if(!LongBulletStatus) this.longbullets.remove(k);
+    }
+  }
+  
+  boolean AtkCollisionDetection(int PlayerAxis[]){
+    for(int j=0; j<bullets.size(); j++){
+        if(this.bullets.get(j).CollisionDetection(PlayerAxis)){
+          bullets.remove(j);
+          return true;
+        }
+    }
+    
+    for(int k=0; k<this.longbullets.size(); k++){
+        if(this.longbullets.get(k).CollisionDetection(PlayerAxis)){
+          longbullets.remove(k);
+          return true;
+        }
+    }
+    return false;
+  } 
+  
+  void ChangeHp(int change){
+    this.hp += change;
   }
   
   void Update()
   {
-    image(imagePath, this.BossAxis[0], this.BossAxis[1]);
+    image(imagePath, this.BossAxis[0], this.BossAxis[1], 61, 120);
   }
 }
