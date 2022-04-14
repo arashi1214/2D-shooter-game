@@ -1,13 +1,17 @@
 class Bullet
 {
   int speed, x, y;
+  int r, g, b;
 
   //Init
-  Bullet(int Speed, int X, int Y)
+  Bullet(int Speed, int X, int Y, int R, int G, int B)
   {
     this.speed = Speed;
     this.x = X;
     this.y = Y;
+    this.r = R;
+    this.g = G;
+    this.b = B;
   }
 
   //void move()
@@ -22,12 +26,12 @@ class Bullet
   
   void Update()
   {
-    fill(255,0,0);
+    fill(this.r,this.g,this.b);
     rect(this.x, this.y, 20, 10);
   }
   
-  boolean CollisionDetection(int[] EnemyAxis){
-    if(this.x < EnemyAxis[0] + 61 && this.x + 51 > EnemyAxis[0] && this.y < EnemyAxis[1] + 61 && this.y + 51 > EnemyAxis[1]){
+  boolean CollisionDetection(int[] Axis){
+    if(this.x < Axis[0] + 61 && this.x + 51 > Axis[0] && this.y < Axis[1] + 61 && this.y + 51 > Axis[1]){
       return true;
     }
     else{

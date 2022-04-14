@@ -12,14 +12,13 @@ Treasure treasures;
 //Other
 int gameStatus = 0;
 int EnemyAxis[][] = new int[5][2];
-int bulletsCount = 0;
 int PlayerAxis[] = new int[2];
+int BossAxis[] = new int[2];
+float time;
 boolean MoveL = false, MoveU = false, MoveR = false, MoveD = false;
-boolean PlayerEnemyStatus = false;
-boolean BulletEnemyStatus = false;
-boolean BulletStatus;
-
+boolean PlayerEnemyStatus = false, BulletEnemyStatus = false, BulletBossStatus = false, BulletPlayerStatus = false;
 ArrayList<Enemy> enemys = new ArrayList<Enemy>();
+ArrayList<Boss> boss = new ArrayList<Boss>();
 
 //[Main Region]
 void setup() {
@@ -46,15 +45,21 @@ void draw() {
   case 1:// Game
     // Updata Scence
     gameStatus = game.Update();
-    
+
     //Moving
-    PlayerAxis = player.Move(MoveL, MoveR, MoveU, MoveD, 800, 600);
+    PlayerAxis = player.Move(MoveL, MoveR, MoveU, MoveD);
     player.Update();
-    player.ActMove();
+    player.AtkMove();
     
     for(int i=0; i<enemys.size(); i++){
       EnemyAxis[i] = enemys.get(i).Move(PlayerAxis);
       enemys.get(i).Update();  
+    }
+    
+    for(int j=0; j<boss.size(); j++){
+      BossAxis = boss.get(j).Move();
+      boss.get(j).Update();
+      boss.get(j).Atk(millis()); 
     }
     
     treasures.Update();
@@ -64,16 +69,32 @@ void draw() {
     
     for(int i=0; i<enemys.size(); i++){
       PlayerEnemyStatus = player.CollisionDetection(EnemyAxis[i]);
-      BulletEnemyStatus = player.ActCollisionDetection(EnemyAxis[i]);
+      BulletEnemyStatus = player.AtkCollisionDetection(EnemyAxis[i]);
       
       if(PlayerEnemyStatus || BulletEnemyStatus) enemys.remove(i);
     }
-
+    
+   for(int j=0; j<boss.size(); j++){
+      BulletPlayerStatus = boss.get(j).AtkCollisionDetection(PlayerAxis);
+      if(BulletPlayerStatus) player.ChangeHp(-20);
+      
+      BulletBossStatus = player.AtkCollisionDetection(BossAxis);
+      if(BulletBossStatus) boss.get(j).ChangeHp(-10);
+      if(boss.get(j).hp <= 0) boss.remove(j);
+    }
+    
     // add enemy
-    if(millis() % 3000 > 2980 && enemys.size() <= 5){
+    time = millis();
+    
+    if(time % 2000 > 1980 && enemys.size() < 5){
       enemys.add(new Enemy());
     }
-
+    
+    if(time % 8000 > 7980 && boss.size() == 0){
+      boss.add(new Boss());
+    }
+    
+    
     break;
   
   case 2:// Ending
@@ -87,12 +108,7 @@ void keyPressed(){
  if(keyCode == LEFT) MoveL = true;
  if(keyCode == RIGHT) MoveR = true;
  if(keyCode == 32){
-   player.Act();
-   /*
-   if(bullets.size() < 5){
-     bullets.add(new Bullet(3, PlayerAxis[0], PlayerAxis[1] + 25));
-   }
-   */
+   player.Atk();
  }
 }
 
