@@ -36,7 +36,7 @@ class Boss
   
   void Atk(float time){
     if(this.bullets.size() == 0 && time % 3000 > 2980){
-      this.mode = floor(random(1,3));
+      this.mode = floor(random(1,4));
       switch(mode){
         case 1:
           this.bullets.add(new Bullet(-3, this.BossAxis[0], this.BossAxis[1] + 30, 0, 255, 0));
@@ -77,7 +77,7 @@ class Boss
     }
     
     for(int k=0; k<this.longbullets.size(); k++){
-        if(this.longbullets.get(k).CollisionDetection(PlayerAxis)){
+        if(this.longbullets.get(k).CollisionDetection(PlayerAxis, 51, 51)){
           longbullets.remove(k);
           return true;
         }
