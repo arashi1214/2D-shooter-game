@@ -87,6 +87,8 @@ void draw() {
       BulletBossStatus = player.AtkCollisionDetection(BossAxis, 61, 120);
       if(BulletBossStatus) boss.get(j).ChangeHp(-10);
       if(boss.get(j).hp <= 0) boss.remove(j);
+      
+      player.CollisionDetection(BossAxis, 61, 120);
     }
     
     // add enemy
