@@ -30,6 +30,7 @@ class Boss
     
       if(BossAxis[1] < 0 || BossAxis[1] > height - 80) this.status = !this.status;
     }
+    Update();
     return this.BossAxis;
   }
   
@@ -91,5 +92,6 @@ class Boss
   void Update()
   {
     image(imagePath, this.BossAxis[0], this.BossAxis[1], 61, 120);
+    Atk(millis()); 
   }
 }

@@ -22,6 +22,8 @@ class Enemy
     else{
       Remake();
     }
+    
+    Update();
     return this.EnemyAxis;
   }
   

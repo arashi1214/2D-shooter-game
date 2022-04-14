@@ -31,12 +31,14 @@ class Player
     if(this.PlayerAxis[1] + 51 > height) this.PlayerAxis[1] = height - 51;
     if(this.PlayerAxis[1] < 0) this.PlayerAxis[1] = 0;
     
+    Update();
     return PlayerAxis;
   }
   
   void Update()
   {
     image(imagePath, this.PlayerAxis[0], this.PlayerAxis[1]);
+    AtkMove();
   }
   
   void GetTreasure(){

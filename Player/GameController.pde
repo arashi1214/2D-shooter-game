@@ -53,19 +53,14 @@ void draw() {
     print("\n");
 
     //Moving
-    PlayerAxis = player.Move(MoveL, MoveR, MoveU, MoveD);
-    player.Update();
-    player.AtkMove();
+    PlayerAxis = player.Move(MoveL, MoveR, MoveU, MoveD); 
     
     for(int i=0; i<enemys.size(); i++){
       EnemyAxis[i] = enemys.get(i).Move(PlayerAxis);
-      enemys.get(i).Update();  
     }
     
     for(int j=0; j<boss.size(); j++){
       BossAxis = boss.get(j).Move();
-      boss.get(j).Update();
-      boss.get(j).Atk(millis()); 
     }
     
     treasures.Update();
