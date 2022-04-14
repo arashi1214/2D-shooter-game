@@ -29,7 +29,6 @@ void setup() {
   title = new Title();
   game = new Game();
   end = new End();
-  player = new Player(100,5,width/2,height/2);
   treasures = new Treasure(floor(random(50, width - 50)), floor(random(50, height - 50)));
   // create all enemys
   enemys.add(new Enemy());
@@ -39,12 +38,19 @@ void draw() {
   {
   case 0: // Title
     gameStatus = title.Update();
+    
+    // init game
+    player = new Player(100,5,width/2,height/2);
+    enemys.clear();
+    boss.clear();
     break;
   
   
   case 1:// Game
     // Updata Scence
     gameStatus = game.Update();
+    print(player.hp);
+    print("\n");
 
     //Moving
     PlayerAxis = player.Move(MoveL, MoveR, MoveU, MoveD);
@@ -65,7 +71,7 @@ void draw() {
     treasures.Update();
     
     // CollisionDetection
-    treasures.CollisionDetection(PlayerAxis, player);
+    if(treasures.CollisionDetection(PlayerAxis, player)) treasures = new Treasure(floor(random(50, width - 50)), floor(random(50, height - 50)));
     
     for(int i=0; i<enemys.size(); i++){
       PlayerEnemyStatus = player.CollisionDetection(EnemyAxis[i]);
@@ -94,6 +100,8 @@ void draw() {
       boss.add(new Boss());
     }
     
+    // game over
+    if(player.hp <= 0) gameStatus = 2;
     
     break;
   

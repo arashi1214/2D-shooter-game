@@ -70,7 +70,7 @@ class Player
   
   boolean CollisionDetection(int[] EnemyAxis){
     if(PlayerAxis[0] < EnemyAxis[0] + 61 && PlayerAxis[0] + 51 > EnemyAxis[0] && PlayerAxis[1] < EnemyAxis[1] + 61 && PlayerAxis[1] + 51 > EnemyAxis[1]){
-      ChangeHp(-20);  
+      ChangeHp(-20);
       return true;
     }
     else{
