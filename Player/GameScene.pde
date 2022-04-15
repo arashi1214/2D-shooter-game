@@ -62,8 +62,11 @@ class Game
   void BackgroundDisplay()
   {
     background(122);
-    image(Game_bg2, 0 - (frameCount % 482), 0);
-    image(Game_bg1, 482 -(frameCount % 482), 0);
+    int bgMove = frameCount % width * 2;
+    
+    image(Game_bg1, 0 - bgMove, 0);
+    image(Game_bg2, width - bgMove, 0);
+    image(Game_bg1, width * 2 - bgMove, 0);
   }
   //------------------------------------------
   int Update()

@@ -24,7 +24,7 @@ ArrayList<Boss> boss = new ArrayList<Boss>();
 void setup() {
   //Canvus Setting
   //size(800, 600);
-  size(640, 480);
+  size(641, 482);
   frameRate(60);
 
   //Class instantiate
