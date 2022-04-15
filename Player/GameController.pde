@@ -16,7 +16,8 @@ int PlayerAxis[] = new int[2];
 int BossAxis[] = new int[2];
 float time;
 boolean MoveL = false, MoveU = false, MoveR = false, MoveD = false;
-boolean PlayerEnemyStatus = false, BulletEnemyStatus = false, BulletBossStatus = false, BulletPlayerStatus = false;
+boolean PlayerEnemyStatus = false, PlayerBossStatus = false,  BulletEnemyStatus = false, BulletBossStatus = false, BulletPlayerStatus = false;
+boolean PlayerCollisionStatus = false;
 ArrayList<Enemy> enemys = new ArrayList<Enemy>();
 ArrayList<Boss> boss = new ArrayList<Boss>();
 
@@ -67,13 +68,18 @@ void draw() {
       EnemyAxis[i] = enemys.get(i).Move(PlayerAxis);
 
       // enemys collision detection
-      PlayerEnemyStatus = player.CollisionDetection(EnemyAxis[i], 61, 61);
+      if(!PlayerCollisionStatus){
+        PlayerEnemyStatus = player.CollisionDetection(EnemyAxis[i], 61, 61);
+        if (PlayerEnemyStatus)
+           PlayerCollisionStatus = true;
+      }
       BulletEnemyStatus = player.AtkCollisionDetection(EnemyAxis[i], 61, 61);
 
       if (PlayerEnemyStatus || BulletEnemyStatus)
       {
         if (BulletEnemyStatus)
           game.ScoreUpdate(20);
+        
         enemys.remove(i);
       }
     }
@@ -84,7 +90,9 @@ void draw() {
 
       // boss collision detection
       BulletPlayerStatus = boss.get(j).AtkCollisionDetection(PlayerAxis);
-      if (BulletPlayerStatus) player.ChangeHp(-20);
+      if (BulletPlayerStatus)
+        player.ChangeHp(-20);
+        
 
       BulletBossStatus = player.AtkCollisionDetection(BossAxis, 61, 120);
       if (BulletBossStatus) boss.get(j).ChangeHp(-10);
@@ -93,12 +101,20 @@ void draw() {
         game.ScoreUpdate(100);
         boss.remove(j);
       }
-
-      player.CollisionDetection(BossAxis, 61, 120);
+      
+      if(!PlayerCollisionStatus){
+        PlayerBossStatus = player.CollisionDetection(BossAxis, 61, 120);
+        if(PlayerBossStatus)
+          PlayerCollisionStatus = true;
+      }
     }
 
     // add enemy
     time = frameCount;
+
+    if (time % 60 == 0 && PlayerCollisionStatus) {
+      PlayerCollisionStatus = false;
+    }
 
     if (time % 120 == 0 && enemys.size() < 5) {
       enemys.add(new Enemy());
