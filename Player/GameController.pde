@@ -98,13 +98,13 @@ void draw() {
     }
 
     // add enemy
-    time = millis();
+    time = frameCount;
 
-    if (time % 2000 > 1980 && enemys.size() < 5) {
+    if (time % 120 == 0 && enemys.size() < 5) {
       enemys.add(new Enemy());
     }
 
-    if (time % 8000 > 7980 && boss.size() == 0) {
+    if (time % 480 == 0 && boss.size() == 0) {
       boss.add(new Boss());
     }
 
