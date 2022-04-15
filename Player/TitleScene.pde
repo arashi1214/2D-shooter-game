@@ -1,8 +1,9 @@
+
 class Title
 {
   //Arguments
   PImage Title_bg1, Title_bg2;
-
+  
   //init
   Title()
   {

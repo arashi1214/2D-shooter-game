@@ -5,6 +5,12 @@ End end;
 Player player;
 Treasure treasures;
 
+//Audio
+import processing.sound.*;
+SoundFile file0;
+SoundFile file1;
+SoundFile file2;
+
 //Other
 int gameStatus = 0;
 int EnemyAxis[][] = new int[5][2];
@@ -12,7 +18,7 @@ int PlayerAxis[] = new int[2];
 int BossAxis[] = new int[2];
 float time;
 boolean MoveL = false, MoveU = false, MoveR = false, MoveD = false;
-boolean PlayerEnemyStatus = false, PlayerBossStatus = false,  BulletEnemyStatus = false, BulletBossStatus = false, BulletPlayerStatus = false;
+boolean PlayerEnemyStatus = false, PlayerBossStatus = false, BulletEnemyStatus = false, BulletBossStatus = false, BulletPlayerStatus = false;
 boolean PlayerCollisionStatus = false;
 ArrayList<Enemy> enemys = new ArrayList<Enemy>();
 ArrayList<Boss> boss = new ArrayList<Boss>();
@@ -31,26 +37,46 @@ void setup() {
   treasures = new Treasure(floor(random(50, width - 50)), floor(random(50, height - 50)));
   // create all enemys
   enemys.add(new Enemy());
+  file0 = new SoundFile(this, "audio/Adventure_time.mp3");
+  file1 = new SoundFile(this, "audio/Fight_in_the_outer_space.mp3");
+  file2 = new SoundFile(this, "audio/fail.mp3");
 }
+
 void draw() {
   switch(gameStatus)
   {
   case 0: // Title
     gameStatus = title.Update();
-
+    
+    //BGM
+    if(!file0.isPlaying())
+    {
+      file2.stop();
+      file1.stop();
+      file0.loop();
+    }
+    
     // init game
     player = new Player(100, 5, width/2, height/2);
     enemys.clear();
     boss.clear();
     game.Score = 0;
-    
+
     break;
 
 
   case 1:// Game
     // Updata Scence
     gameStatus = game.Update();
-
+    
+    //BGM
+    if(!file1.isPlaying())
+    {
+      file0.stop();
+      file2.stop();
+      file1.loop();
+    }
+    
     //player moving
     PlayerAxis = player.Move(MoveL, MoveR, MoveU, MoveD);
 
@@ -64,10 +90,10 @@ void draw() {
       EnemyAxis[i] = enemys.get(i).Move(PlayerAxis);
 
       // enemys collision detection
-      if(!PlayerCollisionStatus){
+      if (!PlayerCollisionStatus) {
         PlayerEnemyStatus = player.CollisionDetection(EnemyAxis[i], 61, 61);
         if (PlayerEnemyStatus)
-           PlayerCollisionStatus = true;
+          PlayerCollisionStatus = true;
       }
       BulletEnemyStatus = player.AtkCollisionDetection(EnemyAxis[i], 61, 61);
 
@@ -75,7 +101,7 @@ void draw() {
       {
         if (BulletEnemyStatus)
           game.ScoreUpdate(20);
-        
+
         enemys.remove(i);
       }
     }
@@ -88,7 +114,7 @@ void draw() {
       BulletPlayerStatus = boss.get(j).AtkCollisionDetection(PlayerAxis);
       if (BulletPlayerStatus)
         player.ChangeHp(-20);
-        
+
 
       BulletBossStatus = player.AtkCollisionDetection(BossAxis, 61, 120);
       if (BulletBossStatus) boss.get(j).ChangeHp(-10);
@@ -97,10 +123,10 @@ void draw() {
         game.ScoreUpdate(100);
         boss.remove(j);
       }
-      
-      if(!PlayerCollisionStatus){
+
+      if (!PlayerCollisionStatus) {
         PlayerBossStatus = player.CollisionDetection(BossAxis, 61, 120);
-        if(PlayerBossStatus)
+        if (PlayerBossStatus)
           PlayerCollisionStatus = true;
       }
     }
@@ -129,6 +155,14 @@ void draw() {
   case 2:// Ending
     end.SetScore(game.Score);
     gameStatus = end.Update();
+    //BGM
+    if(!file2.isPlaying())
+    {
+      file1.stop();
+      file0.stop();
+      file2.play();
+    }
+    
   }
 }
 
