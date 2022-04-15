@@ -52,23 +52,19 @@ void draw() {
     print(player.hp);
     print("\n");
 
-    //Moving
+    //player moving
     PlayerAxis = player.Move(MoveL, MoveR, MoveU, MoveD); 
-    
-    for(int i=0; i<enemys.size(); i++){
-      EnemyAxis[i] = enemys.get(i).Move(PlayerAxis);
-    }
-    
-    for(int j=0; j<boss.size(); j++){
-      BossAxis = boss.get(j).Move();
-    }
     
     treasures.Update();
     
-    // CollisionDetection
+    // treasures collision detection
     if(treasures.CollisionDetection(PlayerAxis, player)) treasures = new Treasure(floor(random(50, width - 50)), floor(random(50, height - 50)));
     
     for(int i=0; i<enemys.size(); i++){
+      // enemys moving
+      EnemyAxis[i] = enemys.get(i).Move(PlayerAxis);
+      
+      // enemys collision detection
       PlayerEnemyStatus = player.CollisionDetection(EnemyAxis[i], 61, 61);
       BulletEnemyStatus = player.AtkCollisionDetection(EnemyAxis[i], 61, 61);
       
@@ -76,6 +72,10 @@ void draw() {
     }
     
    for(int j=0; j<boss.size(); j++){
+      // boss moving
+      BossAxis = boss.get(j).Move();
+     
+     // boss collision detection
       BulletPlayerStatus = boss.get(j).AtkCollisionDetection(PlayerAxis);
       if(BulletPlayerStatus) player.ChangeHp(-20);
       
