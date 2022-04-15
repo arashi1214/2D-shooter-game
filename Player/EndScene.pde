@@ -1,6 +1,7 @@
 class End
 {
   PImage End_bg1, End_bg2;
+  int Score;
 
   //init
   End()
@@ -14,6 +15,10 @@ class End
     End_bg2 = loadImage("img/end2.png");
   }
 
+   void SetScore(int score)
+  {
+    Score = score;
+  }
 
   void display(int img)
   {
@@ -27,6 +32,10 @@ class End
       image(End_bg2, 0, 0);
       break;
     }
+    
+    textSize(30);
+    fill(255, 255, 255);
+    text("Score: " + Score, int(width/2 - 70), int(height/2 + 50));
   }
 
   int Update()

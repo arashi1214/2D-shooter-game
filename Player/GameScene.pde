@@ -6,7 +6,94 @@
  This script included class: ~HealthBar~, ~Item~, ~Game~.
 /*/
 
-//Player pl;
+
+
+class Game
+{
+  //Arguments
+  PImage Game_bg1, Game_bg2, HealthBar_bg;
+  int Score = 0;
+  int Item_timer = 0, Enemy_Timer = 0;
+  HealthBar health = new HealthBar();
+  Item item = new Item();
+
+
+  //------------------------------------------
+  //init
+  Game()
+  {
+    ImageLoad();
+  }
+  
+  //------------------------------------------
+  void ImageLoad()
+  {
+    Game_bg1 = loadImage("img/bg1.png");
+    Game_bg2 = loadImage("img/bg2.png");
+    HealthBar_bg = loadImage("img/hp.png");
+  }
+  //------------------------------------------
+  void HpUpdate()
+  {
+    noStroke();
+    fill (255, 0, 0);
+    rect(health.x + 13, health.y + 3, health.w * float(player.hp) / float(player.MaxHP), health.h);
+    print("HP = " + float(player.hp/player.MaxHP));
+    print("; Health = " + health.w * float(player.hp) / float(player.MaxHP));
+    image(HealthBar_bg, health.x, health.y);
+    
+  }
+  //------------------------------------------
+  void ScoreUpdate(int score)
+  {
+    Score += score;
+    textSize(30);
+    fill(255, 255, 255);
+    text("Score: " + Score, 450, 40);
+  }
+
+  //------------------------------------------
+  void UIDisplay()
+  {
+    HpUpdate();
+    ScoreUpdate(0);
+  }
+  
+  //------------------------------------------
+
+  void BackgroundDisplay()
+  {
+    //background Setting
+    background(122);
+          image(Game_bg1, 0 - (frameCount % width), 0);
+          image(Game_bg2, width-(frameCount % width), 0);
+    /*switch(img)
+    {
+    case 0:
+      image(Game_bg1, 0 - (frameCount % width), 0);
+      break;
+    case 1:
+      image(Game_bg2, width - (frameCount %width), 0);
+      break;
+    }*/
+
+    //UI Update
+    
+  }
+  //------------------------------------------
+  int Update()
+  {
+      BackgroundDisplay();
+  
+    if (keyPressed)
+    {
+      if (keyCode == CONTROL)
+        return 2;
+    }
+    return 1;
+  }
+  //------------------------------------------
+}
 
 static class HealthBar
 {
@@ -40,94 +127,4 @@ class Item
     image(icon, x, y);
     isExist = true;
   }
-}
-
-
-class Game
-{
-  //Arguments
-  PImage Game_bg1, Game_bg2, HealthBar_bg;
-  float PlayerHP;
-  int Score;
-  int Item_timer = 0, Enemy_Timer = 0;
-  HealthBar health = new HealthBar();
-  Item item = new Item();
-
-
-  //------------------------------------------
-  //init
-  Game()
-  {
-    ImageLoad();
-
-    PlayerHP = 50;
-  }
-  //------------------------------------------
-  public void SetPlayerHP(float HP)
-  {
-    PlayerHP = HP;
-  }
-
-  //------------------------------------------
-  public void SetScore(int score)
-  {
-    Score = score;
-  }
-  //------------------------------------------
-  void ImageLoad()
-  {
-    Game_bg1 = loadImage("img/bg1.png");
-    Game_bg2 = loadImage("img/bg2.png");
-    HealthBar_bg = loadImage("img/hp.png");
-  }
-  //------------------------------------------
-  void HpUpdate(float HP)
-  {
-    noStroke();
-    fill (255, 0, 0);
-    rect(health.x + 13, health.y + 3, int(HP * float(health.w)), health.h);
-
-    image(HealthBar_bg, health.x, health.y);
-  }
-  //------------------------------------------
-  void ScoreUpdate(int score)
-  {
-    textSize(30);
-    fill(255, 255, 255);
-    text("Score: " + score, 450, 40);
-  }
-
-  //------------------------------------------
-
-  void display(int img)
-  {
-    //background Setting
-    background(122);
-    switch(img)
-    {
-    case 0:
-      image(Game_bg1, 0, 0);
-      break;
-    case 1:
-      image(Game_bg2, 0, 0);
-      break;
-    }
-
-    //UI Update
-    HpUpdate(PlayerHP / 100);
-    ScoreUpdate(Score);
-  }
-  //------------------------------------------
-  int Update()
-  {
-      display(0);
-  
-    if (keyPressed)
-    {
-      if (keyCode == CONTROL)
-        return 2;
-    }
-    return 1;
-  }
-  //------------------------------------------
 }

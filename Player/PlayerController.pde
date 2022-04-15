@@ -1,6 +1,6 @@
 class Player
 {
-  int hp, speed;
+  int hp, speed, MaxHP;
   PImage imagePath = loadImage("img/fighter.png");
   boolean BulletStatus;
   // 0=x, 1=y
@@ -8,9 +8,10 @@ class Player
   ArrayList<Bullet> bullets = new ArrayList<Bullet>();
   
   //Init
-  Player(int HP, int Speed, int X, int Y)
+  Player(int maxHP, int Speed, int X, int Y)
   {
-    this.hp = HP;
+    this.MaxHP = maxHP;
+    this.hp = MaxHP;
     this.speed = Speed;
     this.PlayerAxis[0] = X;
     this.PlayerAxis[1] = Y;
@@ -42,7 +43,7 @@ class Player
   }
   
   void GetTreasure(){
-    this.hp += 20;
+    ChangeHp(20);
   }
   
   void Atk(){
@@ -81,7 +82,9 @@ class Player
   }
   
   void ChangeHp(int change){
-    this.hp += change;  
+    this.hp += change;
+    if (hp > MaxHP)
+      hp = MaxHP;
   }
   
 }
