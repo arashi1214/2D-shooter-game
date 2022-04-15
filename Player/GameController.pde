@@ -1,8 +1,4 @@
-//[Define Region]
-//Images
-//PImage playerImg, enemyImg, treasureImg; //props
-//PImage hpImg;// HUD
-//Class
+//Self Define Class
 Title title;
 Game game;
 End end;
