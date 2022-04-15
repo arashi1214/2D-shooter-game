@@ -25,6 +25,7 @@ void setup() {
   //Canvus Setting
   //size(800, 600);
   size(640, 480);
+  frameRate(60);
 
   //Class instantiate
   title = new Title();
@@ -44,14 +45,14 @@ void draw() {
     player = new Player(100, 5, width/2, height/2);
     enemys.clear();
     boss.clear();
+    game.Score = 0;
+    
     break;
 
 
   case 1:// Game
     // Updata Scence
     gameStatus = game.Update();
-    print(player.hp);
-    print("\n");
 
     //player moving
     PlayerAxis = player.Move(MoveL, MoveR, MoveU, MoveD);

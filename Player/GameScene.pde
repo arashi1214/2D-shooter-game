@@ -38,8 +38,6 @@ class Game
     noStroke();
     fill (255, 0, 0);
     rect(health.x + 13, health.y + 3, health.w * float(player.hp) / float(player.MaxHP), health.h);
-    print("HP = " + float(player.hp/player.MaxHP));
-    print("; Health = " + health.w * float(player.hp) / float(player.MaxHP));
     image(HealthBar_bg, health.x, health.y);
     
   }
@@ -63,33 +61,15 @@ class Game
 
   void BackgroundDisplay()
   {
-    //background Setting
     background(122);
-          image(Game_bg1, 0 - (frameCount % width), 0);
-          image(Game_bg2, width-(frameCount % width), 0);
-    /*switch(img)
-    {
-    case 0:
-      image(Game_bg1, 0 - (frameCount % width), 0);
-      break;
-    case 1:
-      image(Game_bg2, width - (frameCount %width), 0);
-      break;
-    }*/
-
-    //UI Update
-    
+    image(Game_bg2, 0 - (frameCount % 482), 0);
+    image(Game_bg1, 482 -(frameCount % 482), 0);
   }
   //------------------------------------------
   int Update()
   {
-      BackgroundDisplay();
-  
-    if (keyPressed)
-    {
-      if (keyCode == CONTROL)
-        return 2;
-    }
+    BackgroundDisplay();
+    
     return 1;
   }
   //------------------------------------------
