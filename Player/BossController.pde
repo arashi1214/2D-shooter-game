@@ -34,8 +34,8 @@ class Boss
     return this.BossAxis;
   }
   
-  void Atk(float time){
-    if(this.bullets.size() == 0 && time % 3000 > 2980){
+  void Atk(int time){
+    if(this.bullets.size() == 0 && time % 150 == 0){
       this.mode = floor(random(1,4));
       switch(mode){
         case 1:
@@ -92,6 +92,6 @@ class Boss
   void Update()
   {
     image(imagePath, this.BossAxis[0], this.BossAxis[1], 61, 120);
-    Atk(millis()); 
+    Atk(frameCount)); 
   }
 }
