@@ -16,6 +16,7 @@ int gameStatus = 0;
 int EnemyAxis[][] = new int[5][2];
 int PlayerAxis[] = new int[2];
 int BossAxis[] = new int[2];
+int BossRe , EnemyRe;
 float time;
 boolean MoveL = false, MoveU = false, MoveR = false, MoveD = false;
 boolean PlayerEnemyStatus = false, PlayerBossStatus = false, BulletEnemyStatus = false, BulletBossStatus = false, BulletPlayerStatus = false;
@@ -37,6 +38,10 @@ void setup() {
   treasures = new Treasure(floor(random(50, width - 50)), floor(random(50, height - 50)));
   // create all enemys
   enemys.add(new Enemy());
+  EnemyRe = floor(random(60, 180));
+  BossRe = floor(random(480, 600));
+  
+  // sound
   file0 = new SoundFile(this, "audio/Adventure_time.mp3");
   file1 = new SoundFile(this, "audio/Fight_in_the_outer_space.mp3");
   file2 = new SoundFile(this, "audio/fail.mp3");
@@ -101,7 +106,7 @@ void draw() {
       {
         if (BulletEnemyStatus)
           game.ScoreUpdate(20);
-
+        EnemyRe = floor(random(60, 180));
         enemys.remove(i);
       }
     }
@@ -122,6 +127,7 @@ void draw() {
       {
         game.ScoreUpdate(100);
         boss.remove(j);
+        BossRe = floor(random(480, 600));
       }
 
       if (!PlayerCollisionStatus) {
@@ -138,11 +144,11 @@ void draw() {
       PlayerCollisionStatus = false;
     }
 
-    if (time % floor(random(60, 240)) == 0 && enemys.size() < 5) {
+    if (time % EnemyRe == 0 && enemys.size() < 5) {
       enemys.add(new Enemy());
     }
 
-    if (time % floor(random(480, 600)) == 0 && boss.size() == 0) {
+    if (time % BossRe == 0 && boss.size() == 0) {
       boss.add(new Boss());
     }
 
