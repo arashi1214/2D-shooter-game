@@ -138,11 +138,11 @@ void draw() {
       PlayerCollisionStatus = false;
     }
 
-    if (time % 120 == 0 && enemys.size() < 5) {
+    if (time % floor(random(60, 240)) == 0 && enemys.size() < 5) {
       enemys.add(new Enemy());
     }
 
-    if (time % 480 == 0 && boss.size() == 0) {
+    if (time % floor(random(480, 600)) == 0 && boss.size() == 0) {
       boss.add(new Boss());
     }
 
