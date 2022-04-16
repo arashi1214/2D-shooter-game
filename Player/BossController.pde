@@ -92,6 +92,6 @@ class Boss
   void Update()
   {
     image(imagePath, this.BossAxis[0], this.BossAxis[1], 61, 120);
-    Atk(frameCount)); 
+    Atk(frameCount); 
   }
 }
