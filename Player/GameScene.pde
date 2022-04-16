@@ -24,7 +24,7 @@ class Game
   {
     ImageLoad();
   }
-  
+
   //------------------------------------------
   void ImageLoad()
   {
@@ -39,7 +39,6 @@ class Game
     fill (255, 0, 0);
     rect(health.x + 13, health.y + 3, health.w * float(player.hp) / float(player.MaxHP), health.h);
     image(HealthBar_bg, health.x, health.y);
-    
   }
   //------------------------------------------
   void ScoreUpdate(int score)
@@ -49,21 +48,32 @@ class Game
     fill(255, 255, 255);
     text("Score: " + Score, 450, 40);
   }
+  //------------------------------------------
+  void BulletUpdate()
+  {
+    fill(255, 255, 0);
+    for (int i = 0; i < 5 - player.bullets.size(); i++)
+    {
+      rect(530 + (i*20), 450, 10, 15);
+      arc(535 + (i*20), 450, 10, 10, PI, TWO_PI);
+    }
+  }
 
   //------------------------------------------
   void UIDisplay()
   {
     HpUpdate();
     ScoreUpdate(0);
+    BulletUpdate();
   }
-  
+
   //------------------------------------------
 
   void BackgroundDisplay()
   {
     background(122);
     int bgMove = frameCount % width * 2;
-    
+
     image(Game_bg1, 0 - bgMove, 0);
     image(Game_bg2, width - bgMove, 0);
     image(Game_bg1, width * 2 - bgMove, 0);
@@ -72,7 +82,7 @@ class Game
   int Update()
   {
     BackgroundDisplay();
-    
+
     return 1;
   }
   //------------------------------------------
