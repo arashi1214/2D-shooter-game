@@ -54,13 +54,14 @@ void draw() {
     gameStatus = title.Update();
     
     //BGM
+    /*
     if(!file0.isPlaying())
     {
       file2.stop();
       file1.stop();
       file0.loop();
     }
-    
+    */
     // init game
     player = new Player(100, 5, width/2, height/2);
     enemys.clear();
@@ -75,13 +76,14 @@ void draw() {
     gameStatus = game.Update();
     
     //BGM
+    /*
     if(!file1.isPlaying())
     {
       file0.stop();
       file2.stop();
       file1.loop();
     }
-    
+    */
     //player moving
     PlayerAxis = player.Move(MoveL, MoveR, MoveU, MoveD);
 
@@ -162,13 +164,14 @@ void draw() {
     end.SetScore(game.Score);
     gameStatus = end.Update();
     //BGM
+    /*
     if(!file2.isPlaying())
     {
       file1.stop();
       file0.stop();
       file2.play();
     }
-    
+    */
   }
 }
 
@@ -179,6 +182,10 @@ void keyPressed() {
   if (keyCode == RIGHT) MoveR = true;
   if (keyCode == 32) {
     player.Atk();
+  }
+  if (keyCode == 'Z' && player.chargeReload >=1)
+  {
+    player.chargeShooting = true;
   }
 }
 

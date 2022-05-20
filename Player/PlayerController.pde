@@ -1,8 +1,9 @@
 class Player
 {
   int hp, speed, MaxHP;
+  float chargeReload;
   PImage imagePath = loadImage("img/fighter.png");
-  boolean BulletStatus;
+  boolean BulletStatus, chargeShooting = false;
   // 0=x, 1=y
   int PlayerAxis[] = new int[2];
   ArrayList<Bullet> bullets = new ArrayList<Bullet>();
@@ -15,6 +16,7 @@ class Player
     this.speed = Speed;
     this.PlayerAxis[0] = X;
     this.PlayerAxis[1] = Y;
+    this.chargeReload = 0.0;
   }
 
   //void move()
@@ -40,16 +42,46 @@ class Player
   {
     image(imagePath, this.PlayerAxis[0], this.PlayerAxis[1]);
     AtkMove();
+  
+    //charge bullet reload
+    if (chargeReload < 1 && !chargeShooting)
+      ChargeBulletReloader(10);
+    else if (chargeShooting)
+      chargeAtk();
   }
+  
+  
   
   void GetTreasure(){
     ChangeHp(20);
+    if (chargeReload < 1);
+      chargeReload += 0.1;
   }
   
   void Atk(){
     if(this.bullets.size() < 5){
         this.bullets.add(new Bullet(3, this.PlayerAxis[0], this.PlayerAxis[1] + 25, 255, 0, 0));
     }
+  }
+  
+   void ChargeBulletReloader(int time)
+  {
+      chargeReload += 0.1 / time;
+  }
+  
+  void chargeAtk()
+  {
+    
+    if(chargeReload > 0)
+    {
+      fill(102, 255, 255, 30);
+      rect(0, this.PlayerAxis[1]-50, this.PlayerAxis[0], this.PlayerAxis[1] + 50);
+      fill(0, 200, 230);
+      rect(0, this.PlayerAxis[1]-25, this.PlayerAxis[0], this.PlayerAxis[1] + 25); 
+      ChargeBulletReloader(-10);
+    }
+      else
+      chargeShooting = false;
   }
   
   void AtkMove(){

@@ -14,6 +14,7 @@ class Game
   PImage Game_bg1, Game_bg2, HealthBar_bg;
   int Score = 0;
   int Item_timer = 0, Enemy_Timer = 0;
+  String chargeText;
   HealthBar health = new HealthBar();
   Item item = new Item();
 
@@ -46,7 +47,7 @@ class Game
     Score += score;
     textSize(30);
     fill(255, 255, 255);
-    text("Score: " + Score, 450, 40);
+    text("Score: " + Score, 500, 40);
   }
   //------------------------------------------
   void BulletUpdate()
@@ -60,11 +61,40 @@ class Game
   }
 
   //------------------------------------------
+  void ChargeBulletUpdate()
+  {
+    textAlign(CENTER);
+    if(player.chargeReload < 1)
+    {
+      stroke(0, 255, 255);
+      chargeText = Integer.toString(int(player.chargeReload * 100));
+    }
+    else
+    {
+      stroke(0, 255, 0);
+      chargeText = "Z";
+    }
+    
+    
+    text(chargeText, 575, 410);
+      
+    strokeWeight(10);
+    noFill();
+    
+    arc(575, 400, 60, 60, 0 - HALF_PI, (0 - HALF_PI) + TWO_PI * player.chargeReload);
+    
+    noStroke(); 
+  }
+
+
+  //------------------------------------------
   void UIDisplay()
   {
     HpUpdate();
     ScoreUpdate(0);
+    ChargeBulletUpdate();
     BulletUpdate();
+    
   }
 
   //------------------------------------------
