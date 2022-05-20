@@ -16,7 +16,7 @@ int gameStatus = 0;
 int EnemyAxis[][] = new int[5][2];
 int PlayerAxis[] = new int[2];
 int BossAxis[] = new int[2];
-int BossRe , EnemyRe;
+int BossRe, EnemyRe;
 float time;
 boolean MoveL = false, MoveU = false, MoveR = false, MoveD = false;
 boolean PlayerEnemyStatus = false, PlayerBossStatus = false, BulletEnemyStatus = false, BulletBossStatus = false, BulletPlayerStatus = false;
@@ -40,7 +40,7 @@ void setup() {
   enemys.add(new Enemy());
   EnemyRe = floor(random(60, 180));
   BossRe = floor(random(480, 600));
-  
+
   // sound
   file0 = new SoundFile(this, "audio/Adventure_time.mp3");
   file1 = new SoundFile(this, "audio/Fight_in_the_outer_space.mp3");
@@ -52,16 +52,16 @@ void draw() {
   {
   case 0: // Title
     gameStatus = title.Update();
-    
+
     //BGM
     /*
     if(!file0.isPlaying())
-    {
-      file2.stop();
-      file1.stop();
-      file0.loop();
-    }
-    */
+     {
+     file2.stop();
+     file1.stop();
+     file0.loop();
+     }
+     */
     // init game
     player = new Player(100, 5, width/2, height/2);
     enemys.clear();
@@ -74,16 +74,16 @@ void draw() {
   case 1:// Game
     // Updata Scence
     gameStatus = game.Update();
-    
+
     //BGM
     /*
     if(!file1.isPlaying())
-    {
-      file0.stop();
-      file2.stop();
-      file1.loop();
-    }
-    */
+     {
+     file0.stop();
+     file2.stop();
+     file1.loop();
+     }
+     */
     //player moving
     PlayerAxis = player.Move(MoveL, MoveR, MoveU, MoveD);
 
@@ -102,6 +102,19 @@ void draw() {
         if (PlayerEnemyStatus)
           PlayerCollisionStatus = true;
       }
+
+      //charge atk dectet
+      if (player.chargeShooting)
+      {
+        if (EnemyAxis[i][1] <= PlayerAxis[1]+51 && EnemyAxis[i][1] >= PlayerAxis[1] ||
+          EnemyAxis[i][1] +61 <= PlayerAxis[1]+51 && EnemyAxis[i][1] +61 >= PlayerAxis[1])
+        {
+          game.ScoreUpdate(20);
+          EnemyRe = floor(random(60, 180));
+          enemys.remove(i);
+        }
+      }
+
       BulletEnemyStatus = player.AtkCollisionDetection(EnemyAxis[i], 61, 61);
 
       if (PlayerEnemyStatus || BulletEnemyStatus)
@@ -122,6 +135,15 @@ void draw() {
       if (BulletPlayerStatus)
         player.ChangeHp(-20);
 
+      //charge bullet atk detect
+      if (player.chargeShooting)
+      {
+        if (BossAxis[1] <= PlayerAxis[1]+51 && BossAxis[1] >= PlayerAxis[1] ||
+          BossAxis[1] +120 <= PlayerAxis[1]+51 && BossAxis[1] + 120 >= PlayerAxis[1])
+        {
+          boss.get(j).ChangeHp(-100);
+        }
+      }
 
       BulletBossStatus = player.AtkCollisionDetection(BossAxis, 61, 120);
       if (BulletBossStatus) boss.get(j).ChangeHp(-10);
@@ -166,12 +188,12 @@ void draw() {
     //BGM
     /*
     if(!file2.isPlaying())
-    {
-      file1.stop();
-      file0.stop();
-      file2.play();
-    }
-    */
+     {
+     file1.stop();
+     file0.stop();
+     file2.play();
+     }
+     */
   }
 }
 

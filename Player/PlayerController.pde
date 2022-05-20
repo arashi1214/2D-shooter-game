@@ -69,15 +69,23 @@ class Player
       chargeReload += 0.1 / time;
   }
   
+  void showChargeAtk()
+  {
+      fill(102, 255, 255, 30);
+      rect(0, this.PlayerAxis[1]-10, this.PlayerAxis[0], 71);
+      fill(102, 204, 255, 60);
+      rect(0, this.PlayerAxis[1]-5, this.PlayerAxis[0], 61);
+      fill(0, 200, 230);
+      rect(0, this.PlayerAxis[1], this.PlayerAxis[0], 51);
+      fill(204, 255, 255);
+      rect(0, this.PlayerAxis[1]+10, this.PlayerAxis[0], 30);
+  }
+  
   void chargeAtk()
   {
-    
     if(chargeReload > 0)
     {
-      fill(102, 255, 255, 30);
-      rect(0, this.PlayerAxis[1]-50, this.PlayerAxis[0], this.PlayerAxis[1] + 50);
-      fill(0, 200, 230);
-      rect(0, this.PlayerAxis[1]-25, this.PlayerAxis[0], this.PlayerAxis[1] + 25); 
+      showChargeAtk();
       ChargeBulletReloader(-10);
     }
       else
