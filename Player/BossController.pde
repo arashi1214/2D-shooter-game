@@ -40,14 +40,17 @@ class Boss
       switch(mode){
         case 1:
           this.bullets.add(new Bullet(-3, this.BossAxis[0], this.BossAxis[1] + 30, 0, 255, 0));
+          se_shoot01.play(1, 0.3);
           break;
         case 2:
           this.bullets.add(new Bullet(-3, this.BossAxis[0], this.BossAxis[1], 0, 255, 0));
           this.bullets.add(new Bullet(-3, this.BossAxis[0], this.BossAxis[1] + 80, 0, 255, 0));
+          se_shoot01.play(1, 0.3);
           break;
         case 3:
           if(this.longbullets.size() == 0)
             this.longbullets.add(new LongBullet(-10, this.BossAxis[0], this.BossAxis[1] + 60, 0, 255, 0));
+            se_shoot03.play(1, 0.3);
           break;
       }
     }

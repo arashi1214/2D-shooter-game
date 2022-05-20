@@ -37,7 +37,10 @@ class Title
     {
       display(1);
       if (mousePressed)
+      {
+        se_ButtonClick.play();
         return 1;
+      }
     } else
       display(0);
     return 0;
