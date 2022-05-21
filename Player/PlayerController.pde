@@ -54,8 +54,6 @@ class Player
       chargeAtk();
   }
 
-
-
   void GetTreasure() {
     se_item.play(1, 0.3);
     ChangeHp(20);
@@ -134,4 +132,15 @@ class Player
     if (hp > MaxHP)
       hp = MaxHP;
   }
+  /*
+  void BulletsToLed(int bullets_size){
+    for(int i=0; i<bullets_size; i++){
+      arduino.digitalWrite(9 + i, Arduino.HIGH);
+    }
+    
+    for(int i=3; i>bullets_size; i--){
+      arduino.digitalWrite(9 + i, Arduino.LOW);
+    }
+  }
+  */
 }

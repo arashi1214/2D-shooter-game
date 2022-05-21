@@ -32,7 +32,12 @@ ArrayList<Enemy> enemys = new ArrayList<Enemy>();
 ArrayList<Boss> boss = new ArrayList<Boss>();
 
 //arduino
-arduino = new Arduino(this, "COM3", 57600);
+import processing.serial.*;
+import cc.arduino.*;
+Serial myPort = new Serial(this, Serial.list()[0], 9600);
+Arduino arduino = new Arduino(this, Arduino.list()[0], 57600);
+
+int inByte;
 
 //[Main Region]
 void setup() {
@@ -65,9 +70,13 @@ void setup() {
   se_shoot03 = new SoundFile(this, "audio/shoot03.mp3");
   se_chargeReady = new SoundFile(this, "audio/chargeReady.mp3");
 
+  //SET connect port and arduino
+
+
+   for(int i=9; i<=13; i++) arduino.pinMode(i, Arduino.OUTPUT);
 }
 
-void draw() {
+void draw() {   
   switch(gameStatus)
   {
   case 0: // Title
@@ -90,6 +99,12 @@ void draw() {
 
 
   case 1:// Game
+    //read port
+    while (myPort.available() > 0) {
+      ArduinoInput();
+     }
+       
+  
     // Updata Scence
     gameStatus = game.Update();
 
@@ -212,6 +227,30 @@ void draw() {
   }
 }
 
+void ArduinoInput(){
+  inByte = myPort.read();
+  if(inByte>= 97 && inByte<= 122){
+    
+    // remake move
+    MoveL = false;
+    MoveU = false;
+    MoveR = false;
+    MoveD = false;
+    
+    if(inByte == 'a') MoveL = true;
+    if(inByte == 'b') MoveR = true;
+    if(inByte == 'c') MoveU = true;
+    if(inByte == 'd') MoveD = true;
+    if(inByte == 'z' && player.chargeReload >=1)
+    {
+      player.chargeShooting = true;
+      se_chagerbullet.play();
+    }
+  }
+}
+
+
+
 void keyPressed() {
   if (keyCode == DOWN) MoveD = true;
   if (keyCode == UP) MoveU = true;
@@ -227,9 +266,11 @@ void keyPressed() {
   }
 }
 
+/*
 void keyReleased() {
   if (keyCode == DOWN) MoveD = false;
   if (keyCode == UP) MoveU = false;
   if (keyCode == LEFT) MoveL = false;
   if (keyCode == RIGHT) MoveR = false;
 }
+*/
