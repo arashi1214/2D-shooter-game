@@ -24,6 +24,9 @@ boolean PlayerCollisionStatus = false;
 ArrayList<Enemy> enemys = new ArrayList<Enemy>();
 ArrayList<Boss> boss = new ArrayList<Boss>();
 
+//arduino
+arduino = new Arduino(this, "COM3", 57600);
+
 //[Main Region]
 void setup() {
   //Canvus Setting
