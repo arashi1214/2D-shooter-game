@@ -7,9 +7,16 @@ Treasure treasures;
 
 //Audio
 import processing.sound.*;
-SoundFile file0;
-SoundFile file1;
-SoundFile file2;
+SoundFile bgm_Title;
+SoundFile bgm_Game;
+SoundFile bgm_End;
+SoundFile se_ButtonClick;
+SoundFile se_chagerbullet;
+SoundFile se_item;
+SoundFile se_shoot01;
+SoundFile se_shoot02;
+SoundFile se_shoot03;
+SoundFile se_chargeReady;
 
 //Other
 int gameStatus = 0;
@@ -44,10 +51,20 @@ void setup() {
   EnemyRe = floor(random(60, 180));
   BossRe = floor(random(480, 600));
 
-  // sound
-  file0 = new SoundFile(this, "audio/Adventure_time.mp3");
-  file1 = new SoundFile(this, "audio/Fight_in_the_outer_space.mp3");
-  file2 = new SoundFile(this, "audio/fail.mp3");
+  // BGM
+  bgm_Title = new SoundFile(this, "audio/Adventure_time.mp3");
+  bgm_Game = new SoundFile(this, "audio/Fight_in_the_outer_space.mp3");
+  bgm_End = new SoundFile(this, "audio/fail.mp3");
+  
+  // SE
+  se_ButtonClick = new SoundFile(this, "audio/se3.wav");
+  se_chagerbullet = new SoundFile(this, "audio/elevator01.mp3");
+  se_item = new SoundFile(this, "audio/item.mp3");
+  se_shoot01 = new SoundFile(this, "audio/shoot01.mp3");
+  se_shoot02 = new SoundFile(this, "audio/shoot02.mp3");
+  se_shoot03 = new SoundFile(this, "audio/shoot03.mp3");
+  se_chargeReady = new SoundFile(this, "audio/chargeReady.mp3");
+
 }
 
 void draw() {
@@ -57,14 +74,12 @@ void draw() {
     gameStatus = title.Update();
 
     //BGM
-    /*
-    if(!file0.isPlaying())
-     {
-     file2.stop();
-     file1.stop();
-     file0.loop();
-     }
-     */
+    if (!bgm_Title.isPlaying())
+    {
+      bgm_End.stop();
+      bgm_Game.stop();
+      bgm_Title.loop(1, 0.3);
+    }
     // init game
     player = new Player(100, 5, width/2, height/2);
     enemys.clear();
@@ -79,14 +94,13 @@ void draw() {
     gameStatus = game.Update();
 
     //BGM
-    /*
-    if(!file1.isPlaying())
-     {
-     file0.stop();
-     file2.stop();
-     file1.loop();
-     }
-     */
+    if (!bgm_Game.isPlaying())
+    {
+      bgm_Title.stop();
+      bgm_End.stop();
+      bgm_Game.loop(1, 0.3);
+    }
+
     //player moving
     PlayerAxis = player.Move(MoveL, MoveR, MoveU, MoveD);
 
@@ -109,8 +123,8 @@ void draw() {
       //charge atk dectet
       if (player.chargeShooting)
       {
-        if (EnemyAxis[i][1] <= PlayerAxis[1]+51 && EnemyAxis[i][1] >= PlayerAxis[1] ||
-          EnemyAxis[i][1] +61 <= PlayerAxis[1]+51 && EnemyAxis[i][1] +61 >= PlayerAxis[1])
+        if (EnemyAxis[i][0] < PlayerAxis[1] && EnemyAxis[i][1] <= PlayerAxis[1]+51 && EnemyAxis[i][1] >= PlayerAxis[1] ||
+          EnemyAxis[i][0] < PlayerAxis[1] && EnemyAxis[i][1] +61 <= PlayerAxis[1]+51 && EnemyAxis[i][1] +61 >= PlayerAxis[1])
         {
           game.ScoreUpdate(20);
           EnemyRe = floor(random(60, 180));
@@ -141,8 +155,8 @@ void draw() {
       //charge bullet atk detect
       if (player.chargeShooting)
       {
-        if (BossAxis[1] <= PlayerAxis[1]+51 && BossAxis[1] >= PlayerAxis[1] ||
-          BossAxis[1] +120 <= PlayerAxis[1]+51 && BossAxis[1] + 120 >= PlayerAxis[1])
+        if (BossAxis[0] < PlayerAxis[1] && BossAxis[1] <= PlayerAxis[1]+51 && BossAxis[1] >= PlayerAxis[1] ||
+          BossAxis[0] < PlayerAxis[1] && BossAxis[1] +120 <= PlayerAxis[1]+51 && BossAxis[1] + 120 >= PlayerAxis[1])
         {
           boss.get(j).ChangeHp(-100);
         }
@@ -189,14 +203,12 @@ void draw() {
     end.SetScore(game.Score);
     gameStatus = end.Update();
     //BGM
-    /*
-    if(!file2.isPlaying())
-     {
-     file1.stop();
-     file0.stop();
-     file2.play();
-     }
-     */
+    if (!bgm_End.isPlaying())
+    {
+      bgm_Game.stop();
+      bgm_Title.stop();
+      bgm_End.play(1, 0.5);
+    }
   }
 }
 
@@ -211,6 +223,7 @@ void keyPressed() {
   if (keyCode == 'Z' && player.chargeReload >=1)
   {
     player.chargeShooting = true;
+    se_chagerbullet.play();
   }
 }
 

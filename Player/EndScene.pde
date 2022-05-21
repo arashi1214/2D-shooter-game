@@ -35,7 +35,7 @@ class End
     
     textSize(30);
     fill(255, 255, 255);
-    text("Score: " + Score, int(width/2 - 70), int(height/2 + 50));
+    text("Score: " + Score, int(width/2), int(height/2 + 50));
   }
 
   int Update()
@@ -45,7 +45,10 @@ class End
     {
       display(1);
       if (mousePressed)
+      {
+        se_ButtonClick.play();
         return 0;
+      }
     } else
       display(0);
     return 2;
