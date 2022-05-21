@@ -52,6 +52,9 @@ class Player
       chargeReady = true;
     } else if (chargeShooting)
       chargeAtk();
+    
+    myPort.write(70 - this.bullets.size());
+    println(70 - this.bullets.size());
   }
 
   void GetTreasure() {

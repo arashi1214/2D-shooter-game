@@ -71,7 +71,7 @@ void setup() {
   se_chargeReady = new SoundFile(this, "audio/chargeReady.mp3");
 
   //SET connect port and arduino
-  arduino = new Arduino(this, Arduino.list()[0], 57600);
+  //arduino = new Arduino(this, Arduino.list()[0], 57600);
   //for(int i=9; i<=13; i++) arduino.pinMode(i, Arduino.OUTPUT);
 }
 
@@ -229,17 +229,21 @@ void draw() {
 void ArduinoInput(){
   inByte = myPort.read();
   if(inByte>= 97 && inByte<= 122){
-    
-    // remake move
-    MoveL = false;
-    MoveU = false;
-    MoveR = false;
-    MoveD = false;
-    
+    //println(inByte);
     if(inByte == 'a') MoveL = true;
     if(inByte == 'b') MoveR = true;
     if(inByte == 'c') MoveU = true;
     if(inByte == 'd') MoveD = true;
+    if(inByte == 'n'){
+      // remake move
+      MoveL = false;
+      MoveU = false;
+      MoveR = false;
+      MoveD = false;
+    }
+    if(inByte == 'k'){
+      player.Atk();
+    }
     if(inByte == 'z' && player.chargeReload >=1)
     {
       player.chargeShooting = true;
