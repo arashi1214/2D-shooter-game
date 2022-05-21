@@ -35,7 +35,7 @@ ArrayList<Boss> boss = new ArrayList<Boss>();
 import processing.serial.*;
 import cc.arduino.*;
 Serial myPort = new Serial(this, Serial.list()[0], 9600);
-Arduino arduino = new Arduino(this, Arduino.list()[0], 57600);
+Arduino arduino;
 
 int inByte;
 
@@ -71,9 +71,8 @@ void setup() {
   se_chargeReady = new SoundFile(this, "audio/chargeReady.mp3");
 
   //SET connect port and arduino
-
-
-   for(int i=9; i<=13; i++) arduino.pinMode(i, Arduino.OUTPUT);
+  arduino = new Arduino(this, Arduino.list()[0], 57600);
+  //for(int i=9; i<=13; i++) arduino.pinMode(i, Arduino.OUTPUT);
 }
 
 void draw() {   
